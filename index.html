@@ -1,38 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>Solana QR Premium</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="style.css">
-
-  <!-- QR PREMIUM -->
-  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling/lib/qr-code-styling.js"></script>
+  <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
 </head>
 <body>
 
 <div class="container">
+  <h1>💎 Premium Wallet QR</h1>
 
-  <h1>💸 Solana QR Premium</h1>
+  <input id="name" placeholder="Nama">
+  <input id="username" placeholder="@username">
+  <input id="bio" placeholder="Deskripsi">
+  <input id="wallet" placeholder="Alamat wallet">
 
-  <input id="wallet" placeholder="Masukkan alamat wallet">
-  <input id="amount" placeholder="Jumlah SOL (opsional)">
+  <input type="file" id="logo" accept="image/*">
 
-  <button onclick="generateQR()">Generate QR</button>
+  <button onclick="generate()">Generate</button>
 
-  <div id="result" class="hidden">
-    <p id="walletText"></p>
+  <div id="card" class="hidden">
+    <div class="profile">
+      <div class="avatar" id="avatar">A</div>
+      <div>
+        <h2 id="outName"></h2>
+        <p id="outUser"></p>
+      </div>
+    </div>
+
+    <p id="outBio"></p>
+    <p id="outWallet"></p>
 
     <div id="qr"></div>
 
     <button onclick="copyWallet()">Copy</button>
-    <button onclick="downloadQR()">Download HD</button>
+    <button onclick="download()">Download</button>
   </div>
-
 </div>
 
 <script src="app.js"></script>
-
 </body>
 </html>
