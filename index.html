@@ -2,38 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Digital ID</title>
+  <title>Digital ID Card</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
 
-  <h1>Digital Identity Card</h1>
+  <h1>🪪 Digital Identity Card</h1>
 
   <div class="form">
     <input id="name" placeholder="Nama">
     <input id="username" placeholder="@username">
     <input id="bio" placeholder="Bio singkat">
-    <input id="skills" placeholder="Skill (pisahkan koma)">
+    <input id="skills" placeholder="Skill (contoh: Design, Coding)">
     
-    <button onclick="generate()">Generate</button>
+    <button onclick="generate()">Generate Card</button>
   </div>
 
   <div id="card" class="card hidden">
-    <h2 id="cName"></h2>
-    <p id="cUser"></p>
-    <p id="cBio"></p>
-    <p id="cSkills"></p>
+
+    <div class="card-header">
+      <div class="avatar" id="avatar"></div>
+      <h2 id="cName"></h2>
+      <p id="cUser"></p>
+    </div>
+
+    <div class="card-body">
+      <p id="cBio"></p>
+      <p id="cSkills"></p>
+    </div>
 
     <canvas id="qr"></canvas>
 
     <button onclick="download()">Download</button>
+
   </div>
 
 </div>
 
 <script src="app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </body>
 </html>
