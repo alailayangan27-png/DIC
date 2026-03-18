@@ -13,13 +13,14 @@
 
 <div class="container">
 
-  <h1 class="title">LOBSTAR ID</h1>
+  <h1 class="title">LOBSTAR WALLET ID</h1>
 
   <div class="form glass">
     <input id="name" placeholder="Nama">
     <input id="username" placeholder="@username">
     <input id="bio" placeholder="Bio singkat">
     <input id="skills" placeholder="Skill (Design, Coding)">
+    <input id="wallet" placeholder="Alamat Wallet Solana">
     
     <button onclick="generate()">Generate</button>
   </div>
@@ -38,9 +39,11 @@
 
     <p id="cBio"></p>
     <p id="cSkills"></p>
+    <p id="cWallet" class="wallet"></p>
 
     <canvas id="qr"></canvas>
 
+    <button class="copy" onclick="copyWallet()">Copy Wallet</button>
     <button class="download" onclick="download()">Download</button>
 
   </div>
