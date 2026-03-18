@@ -12,16 +12,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 body {
-  min-height: 100vh;
-  background: #0a0a0a;
+  background: #0b0b0c;
+  color: #e4e4e7;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #e5e5e5;
+  min-height: 100vh;
 }
 
 /* CONTAINER */
@@ -34,16 +34,15 @@ body {
 /* TITLE */
 .title {
   text-align: center;
-  font-size: 18px;
-  margin-bottom: 18px;
-  color: #aaa;
-  letter-spacing: 0.5px;
+  font-size: 16px;
+  color: #71717a;
+  margin-bottom: 16px;
 }
 
 /* CARD */
 .card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: #111113;
+  border: 1px solid #1f1f23;
   border-radius: 18px;
   padding: 18px;
 }
@@ -53,9 +52,9 @@ input {
   width: 100%;
   padding: 13px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: #111;
-  color: #fff;
+  border: 1px solid #1f1f23;
+  background: #0f0f11;
+  color: white;
   margin-bottom: 10px;
 }
 
@@ -65,8 +64,8 @@ input {
   padding: 13px;
   border-radius: 12px;
   text-align: center;
-  background: #111;
-  border: 1px dashed rgba(255,255,255,0.1);
+  background: #0f0f11;
+  border: 1px dashed #2a2a2f;
   cursor: pointer;
   margin-bottom: 10px;
   font-size: 13px;
@@ -76,15 +75,6 @@ input {
   display: none;
 }
 
-/* COLOR PICKER */
-.color {
-  width: 100%;
-  height: 45px;
-  border: none;
-  margin-bottom: 10px;
-  background: none;
-}
-
 /* BUTTON */
 button {
   width: 100%;
@@ -92,21 +82,35 @@ button {
   border-radius: 12px;
   border: none;
   font-weight: 500;
-  color: white;
   cursor: pointer;
   margin-top: 8px;
-  background: #2563eb;
   transition: 0.2s;
 }
 
-button:hover {
+/* PRIMARY */
+.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.primary:hover {
   background: #1d4ed8;
-  box-shadow: 0 0 12px rgba(37,99,235,0.4);
+  box-shadow: 0 0 10px rgba(37,99,235,0.4);
+}
+
+/* SECONDARY */
+.secondary {
+  background: #18181b;
+  color: #d4d4d8;
+}
+
+.secondary:hover {
+  background: #27272a;
 }
 
 /* RESULT */
 .result {
-  margin-top: 18px;
+  margin-top: 16px;
   text-align: center;
   opacity: 0;
   transform: translateY(10px);
@@ -118,24 +122,20 @@ button:hover {
   transform: translateY(0);
 }
 
+/* QR */
+#qr canvas {
+  margin-top: 12px;
+  border-radius: 14px;
+  box-shadow: 0 0 18px rgba(37,99,235,0.25);
+}
+
 /* ACTIONS */
 .actions {
   margin-top: 12px;
 }
 
 .actions button {
-  background: #1f2937;
-}
-
-.actions button:hover {
-  background: #374151;
-}
-
-/* QR */
-#qr canvas {
-  margin-top: 12px;
-  border-radius: 14px;
-  box-shadow: 0 0 20px rgba(37,99,235,0.25);
+  margin-top: 6px;
 }
 
 /* DESKTOP */
@@ -156,27 +156,25 @@ button:hover {
 
 <div class="app">
 
-  <div class="title">SolQR • Clean Generator</div>
+  <div class="title">SolQR</div>
 
   <div class="card">
 
     <input id="wallet" placeholder="Wallet address">
 
     <label class="file">
-      Upload logo (optional)
+      Upload logo
       <input type="file" id="logo" accept="image/*">
     </label>
 
-    <input type="color" id="color" class="color" value="#2563eb">
-
-    <button onclick="generateQR()">Generate QR</button>
+    <button class="primary" onclick="generateQR()">Generate QR</button>
 
     <div id="result" class="result">
       <div id="qr"></div>
 
       <div id="actions" class="actions" style="display:none;">
-        <button onclick="copyWallet()">Copy</button>
-        <button onclick="downloadQR()">Download</button>
+        <button class="secondary" onclick="copyWallet()">Copy wallet</button>
+        <button class="secondary" onclick="downloadQR()">Download QR</button>
       </div>
     </div>
 
@@ -190,7 +188,6 @@ let currentWallet = "";
 
 function generateQR() {
   const wallet = document.getElementById("wallet").value.trim();
-  const color = document.getElementById("color").value;
   const logoFile = document.getElementById("logo").files[0];
 
   if (!wallet) return alert("Enter wallet");
@@ -209,17 +206,23 @@ function generateQR() {
     image: logoURL,
 
     dotsOptions: {
-      color: color,
+      color: "#2563eb",
       type: "rounded"
     },
 
     cornersSquareOptions: {
       type: "extra-rounded",
-      color: color
+      color: "#2563eb"
     },
 
     backgroundOptions: {
       color: "#ffffff"
+    },
+
+    imageOptions: {
+      margin: 4,
+      imageSize: 0.3,
+      hideBackgroundDots: true
     }
   });
 
