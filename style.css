@@ -1,144 +1,54 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
 body {
-  background: #020617;
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #020617, #0f172a);
   color: white;
-}
-
-/* Background glow */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 20% 30%, #6366f1, transparent),
-              radial-gradient(circle at 80% 70%, #9333ea, transparent);
-  filter: blur(100px);
-  z-index: -1;
-}
-
-/* Layout */
-.container {
-  padding: 20px;
   text-align: center;
 }
 
-.title {
+.container {
+  padding: 20px;
+}
+
+h1 {
   margin-bottom: 20px;
 }
 
-/* Glass UI */
-.glass {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  padding: 20px;
+input {
   width: 90%;
-  margin: auto;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-
-/* Form */
-.form input {
-  width: 100%;
-  margin: 10px 0;
   padding: 12px;
-  border-radius: 10px;
+  margin: 10px auto;
+  display: block;
+  border-radius: 12px;
   border: none;
+  outline: none;
   background: rgba(255,255,255,0.1);
   color: white;
 }
 
-.form button {
-  width: 100%;
+button {
+  width: 90%;
   padding: 12px;
+  margin: 8px auto;
   border-radius: 12px;
   border: none;
-  background: linear-gradient(135deg, #6366f1, #9333ea);
+  background: linear-gradient(45deg, #7c3aed, #ec4899);
   color: white;
   font-weight: bold;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-/* Card */
-.card {
-  margin-top: 25px;
-  animation: fadeIn 0.4s ease;
+button:hover {
+  opacity: 0.8;
+}
+
+#qr {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .hidden {
   display: none;
-}
-
-/* Top */
-.top {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* Avatar */
-.avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #9333ea);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-/* Divider */
-.divider {
-  height: 1px;
-  background: rgba(255,255,255,0.1);
-  margin: 15px 0;
-}
-
-/* Wallet text */
-.wallet {
-  font-size: 12px;
-  opacity: 0.7;
-  word-break: break-all;
-}
-
-/* QR */
-canvas {
-  margin-top: 15px;
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-/* Buttons */
-.copy {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #3b82f6;
-  color: white;
-}
-
-.download {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #22c55e;
-  color: white;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
 }
