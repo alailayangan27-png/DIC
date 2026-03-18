@@ -1,20 +1,27 @@
 function generate() {
 
-  const name = document.getElementById("name").value;
-  const username = document.getElementById("username").value;
-  const bio = document.getElementById("bio").value;
-  const skills = document.getElementById("skills").value;
+  const name = document.getElementById("name").value || "No Name";
+  const username = document.getElementById("username").value || "@unknown";
+  const bio = document.getElementById("bio").value || "-";
+  const skills = document.getElementById("skills").value || "-";
 
   document.getElementById("cName").innerText = name;
   document.getElementById("cUser").innerText = username;
   document.getElementById("cBio").innerText = bio;
   document.getElementById("cSkills").innerText = "Skills: " + skills;
 
+  // Avatar dari huruf pertama
+  const avatar = document.getElementById("avatar");
+  avatar.innerText = name.charAt(0).toUpperCase();
+
   document.getElementById("card").classList.remove("hidden");
 
-  const data = `${name} | ${username} | ${bio}`;
+  // QR Code
+  const data = `${name} | ${username} | ${bio} | ${skills}`;
 
-  QRCode.toCanvas(document.getElementById("qr"), data);
+  QRCode.toCanvas(document.getElementById("qr"), data, function (error) {
+    if (error) console.error(error);
+  });
 }
 
 function download() {
@@ -23,7 +30,7 @@ function download() {
 
   html2canvas(card).then(canvas => {
     const link = document.createElement("a");
-    link.download = "id-card.png";
+    link.download = "digital-id.png";
     link.href = canvas.toDataURL();
     link.click();
   });
