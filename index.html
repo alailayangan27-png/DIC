@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SolQR</title>
+<title>LOBSTAR QR GENERATE</title>
 
 <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
 
@@ -24,12 +24,14 @@ body {
   min-height: 100vh;
 }
 
+/* CONTAINER */
 .app {
   width: 100%;
   max-width: 420px;
   padding: 16px;
 }
 
+/* TITLE */
 .title {
   text-align: center;
   font-size: 16px;
@@ -37,13 +39,13 @@ body {
   margin-bottom: 16px;
 }
 
-/* CARD */
+/* CARD (YELLOW BORDER) */
 .card {
   background: #111113;
-  border: 1px solid #1f1f23;
+  border: 1px solid rgba(255, 200, 0, 0.4);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  box-shadow: 0 0 25px rgba(255, 200, 0, 0.15);
 }
 
 /* INPUT */
@@ -68,9 +70,16 @@ input {
   cursor: pointer;
   margin-bottom: 12px;
   font-size: 13px;
+  transition: 0.2s;
 }
 
-/* BUTTON BASE */
+/* FILE SUCCESS */
+.file.active {
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}
+
+/* BUTTON */
 button {
   width: 100%;
   padding: 14px;
@@ -82,7 +91,7 @@ button {
   transition: all 0.25s ease;
 }
 
-/* PRIMARY BUTTON */
+/* PRIMARY */
 .primary {
   background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: white;
@@ -94,7 +103,7 @@ button {
   box-shadow: 0 6px 20px rgba(37,99,235,0.5);
 }
 
-/* SECONDARY BUTTON */
+/* SECONDARY */
 .secondary {
   background: #18181b;
   color: #d4d4d8;
@@ -103,7 +112,6 @@ button {
 
 .secondary:hover {
   background: #27272a;
-  border-color: #3f3f46;
 }
 
 /* RESULT */
@@ -132,10 +140,6 @@ button {
   margin-top: 14px;
 }
 
-.actions button {
-  margin-top: 8px;
-}
-
 /* DESKTOP */
 @media (min-width: 768px) {
   .app {
@@ -160,7 +164,7 @@ button {
 
     <input id="wallet" placeholder="Wallet address">
 
-    <label class="file">
+    <label class="file" id="fileBox">
       Upload logo
       <input type="file" id="logo" accept="image/*">
     </label>
@@ -183,6 +187,16 @@ button {
 <script>
 let qr;
 let currentWallet = "";
+
+/* FILE CHECK */
+document.getElementById("logo").addEventListener("change", function() {
+  const fileBox = document.getElementById("fileBox");
+
+  if (this.files.length > 0) {
+    fileBox.classList.add("active");
+    fileBox.innerHTML = "✔ Logo selected";
+  }
+});
 
 function generateQR() {
   const wallet = document.getElementById("wallet").value.trim();
@@ -220,8 +234,7 @@ function generateQR() {
     imageOptions: {
       margin: 6,
       imageSize: 0.28,
-      hideBackgroundDots: true,
-      crossOrigin: "anonymous"
+      hideBackgroundDots: true
     }
   });
 
@@ -232,12 +245,10 @@ function generateQR() {
 }
 
 function copyWallet() {
-  if (!currentWallet) return alert("Generate first");
   navigator.clipboard.writeText(currentWallet);
 }
 
 function downloadQR() {
-  if (!qr) return alert("Generate first");
   qr.download({ name: "solqr", extension: "png" });
 }
 </script>
