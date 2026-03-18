@@ -1,31 +1,37 @@
 let qr;
 
-function generate() {
-  const name = document.getElementById("name").value;
-  const username = document.getElementById("username").value;
-  const bio = document.getElementById("bio").value;
-  const wallet = document.getElementById("wallet").value;
-  const logoInput = document.getElementById("logo");
+function generateQR() {
+  const name = document.getElementById("name").value.trim();
+  const username = document.getElementById("username").value.trim();
+  const bio = document.getElementById("bio").value.trim();
+  const wallet = document.getElementById("wallet").value.trim();
+  const logoFile = document.getElementById("logo").files[0];
 
-  document.getElementById("outName").innerText = name;
-  document.getElementById("outUser").innerText = username;
-  document.getElementById("outBio").innerText = bio;
+  if (!wallet) {
+    alert("Wallet address is required");
+    return;
+  }
+
+  // Output data
+  document.getElementById("outName").innerText = name || "Anonymous";
+  document.getElementById("outUsername").innerText = username || "";
+  document.getElementById("outBio").innerText = bio || "";
   document.getElementById("outWallet").innerText = wallet;
 
-  document.getElementById("avatar").innerText = name.charAt(0);
+  document.getElementById("avatar").innerText =
+    name ? name.charAt(0).toUpperCase() : "A";
 
-  const qrDiv = document.getElementById("qr");
-  qrDiv.innerHTML = "";
+  const qrContainer = document.getElementById("qr");
+  qrContainer.innerHTML = "";
 
   let logoURL = "";
-
-  if (logoInput.files[0]) {
-    logoURL = URL.createObjectURL(logoInput.files[0]);
+  if (logoFile) {
+    logoURL = URL.createObjectURL(logoFile);
   }
 
   qr = new QRCodeStyling({
-    width: 250,
-    height: 250,
+    width: 260,
+    height: 260,
     data: wallet,
     image: logoURL,
     dotsOptions: {
@@ -33,25 +39,27 @@ function generate() {
       type: "rounded"
     },
     backgroundOptions: {
-      color: "#fff"
+      color: "#ffffff"
     },
     imageOptions: {
       crossOrigin: "anonymous",
-      margin: 5
+      margin: 6
     }
   });
 
-  qr.append(qrDiv);
+  qr.append(qrContainer);
 
   document.getElementById("card").classList.remove("hidden");
 }
 
 function copyWallet() {
-  const wallet = document.getElementById("wallet").value;
+  const wallet = document.getElementById("outWallet").innerText;
   navigator.clipboard.writeText(wallet);
-  alert("Copied!");
+  alert("Wallet copied");
 }
 
-function download() {
-  qr.download({ name: "wallet-qr", extension: "png" });
+function downloadQR() {
+  if (qr) {
+    qr.download({ name: "wallet-qr", extension: "png" });
+  }
 }
