@@ -2,42 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Digital ID Card</title>
+  <title>Lobstar ID</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="bg"></div>
+
 <div class="container">
 
-  <h1>🪪 Digital Identity Card</h1>
+  <h1 class="title">LOBSTAR ID</h1>
 
-  <div class="form">
+  <div class="form glass">
     <input id="name" placeholder="Nama">
     <input id="username" placeholder="@username">
     <input id="bio" placeholder="Bio singkat">
-    <input id="skills" placeholder="Skill (contoh: Design, Coding)">
+    <input id="skills" placeholder="Skill (Design, Coding)">
     
-    <button onclick="generate()">Generate Card</button>
+    <button onclick="generate()">Generate</button>
   </div>
 
-  <div id="card" class="card hidden">
+  <div id="card" class="card glass hidden">
 
-    <div class="card-header">
+    <div class="top">
       <div class="avatar" id="avatar"></div>
-      <h2 id="cName"></h2>
-      <p id="cUser"></p>
+      <div>
+        <h2 id="cName"></h2>
+        <p id="cUser"></p>
+      </div>
     </div>
 
-    <div class="card-body">
-      <p id="cBio"></p>
-      <p id="cSkills"></p>
-    </div>
+    <div class="divider"></div>
+
+    <p id="cBio"></p>
+    <p id="cSkills"></p>
 
     <canvas id="qr"></canvas>
 
-    <button onclick="download()">Download</button>
+    <button class="download" onclick="download()">Download</button>
 
   </div>
 
