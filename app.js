@@ -1,49 +1,73 @@
+let qrCode;
 let currentWallet = "";
 
-function generate() {
+function generateQR() {
 
-  const name = document.getElementById("name").value || "No Name";
-  const username = document.getElementById("username").value || "@unknown";
-  const bio = document.getElementById("bio").value || "-";
-  const skills = document.getElementById("skills").value || "-";
-  const wallet = document.getElementById("wallet").value || "-";
+  const wallet = document.getElementById("wallet").value.trim();
+  const amount = document.getElementById("amount").value.trim();
+
+  if (!wallet) {
+    alert("Masukkan alamat wallet!");
+    return;
+  }
 
   currentWallet = wallet;
 
-  document.getElementById("cName").innerText = name;
-  document.getElementById("cUser").innerText = username;
-  document.getElementById("cBio").innerText = bio;
-  document.getElementById("cSkills").innerText = "Skills: " + skills;
-  document.getElementById("cWallet").innerText = wallet;
+  document.getElementById("walletText").innerText = wallet;
 
-  const avatar = document.getElementById("avatar");
-  avatar.innerText = name.charAt(0).toUpperCase();
+  let qrData = `solana:${wallet}`;
+  if (amount) qrData += `?amount=${amount}`;
 
-  document.getElementById("card").classList.remove("hidden");
+  const qrContainer = document.getElementById("qr");
+  qrContainer.innerHTML = "";
 
-  // QR SOLANA FORMAT
-  const qrData = wallet !== "-" ? `solana:${wallet}` : "No Wallet";
+  qrCode = new QRCodeStyling({
+    width: 320,
+    height: 320,
+    data: qrData,
 
-  QRCode.toCanvas(document.getElementById("qr"), qrData, function (error) {
-    if (error) console.error(error);
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Lobster_icon.svg/512px-Lobster_icon.svg.png",
+
+    dotsOptions: {
+      color: "#7c3aed",
+      type: "rounded"
+    },
+
+    cornersSquareOptions: {
+      type: "extra-rounded"
+    },
+
+    backgroundOptions: {
+      color: "#ffffff"
+    },
+
+    imageOptions: {
+      crossOrigin: "anonymous",
+      margin: 8,
+      imageSize: 0.25
+    }
   });
+
+  qrCode.append(qrContainer);
+
+  document.getElementById("result").classList.remove("hidden");
 }
 
-// Copy wallet
+// COPY
 function copyWallet() {
-  if (!currentWallet) return alert("Wallet kosong!");
   navigator.clipboard.writeText(currentWallet);
   alert("Wallet copied!");
 }
 
-// Download card
-function download() {
-  const card = document.getElementById("card");
+// DOWNLOAD HD
+function downloadQR() {
+  if (!qrCode) {
+    alert("Generate dulu!");
+    return;
+  }
 
-  html2canvas(card).then(canvas => {
-    const link = document.createElement("a");
-    link.download = "lobstar-wallet.png";
-    link.href = canvas.toDataURL();
-    link.click();
+  qrCode.download({
+    name: "solana-qr-premium",
+    extension: "png"
   });
 }
