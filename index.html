@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital ID</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>Digital Identity Card</h1>
+
+  <div class="form">
+    <input id="name" placeholder="Nama">
+    <input id="username" placeholder="@username">
+    <input id="bio" placeholder="Bio singkat">
+    <input id="skills" placeholder="Skill (pisahkan koma)">
+    
+    <button onclick="generate()">Generate</button>
+  </div>
+
+  <div id="card" class="card hidden">
+    <h2 id="cName"></h2>
+    <p id="cUser"></p>
+    <p id="cBio"></p>
+    <p id="cSkills"></p>
+
+    <canvas id="qr"></canvas>
+
+    <button onclick="download()">Download</button>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</body>
+</html>
