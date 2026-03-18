@@ -1,59 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Wallet QR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Wallet QR</title>
 
-  <link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
 
-  <!-- QR Library -->
-  <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1e3a8a, #020617);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 15px;
+}
+
+/* CONTAINER */
+.app {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* TITLE */
+.title {
+  text-align: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+/* FILE */
+.file {
+  display: block;
+  padding: 14px;
+  border-radius: 14px;
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.file input {
+  display: none;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  margin-top: 8px;
+  background: linear-gradient(45deg, #7c3aed, #ec4899);
+}
+
+/* RESULT */
+.result {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#qr {
+  margin-top: 15px;
+}
+
+/* ACTION BUTTONS */
+.actions button {
+  margin-top: 10px;
+}
+
+/* DESKTOP UPGRADE */
+@media (min-width: 768px) {
+  .app {
+    max-width: 500px;
+  }
+
+  .card {
+    padding: 30px;
+  }
+
+  #qr canvas {
+    width: 300px !important;
+    height: 300px !important;
+  }
+}
+</style>
 </head>
+
 <body>
 
 <div class="app">
 
-  <h1>🦞LOBSTAR QR GENERATE🦞</h1>
+  <div class="title">💎 Premium Wallet QR</div>
 
-  <div class="form">
-    <input id="name" placeholder="Full Name">
-    <input id="username" placeholder="@username">
-    <input id="bio" placeholder="Short description">
-    <input id="wallet" placeholder="Wallet address">
+  <div class="card">
 
-    <label class="upload">
-      Upload Logo
+    <input id="wallet" placeholder="Enter wallet address">
+
+    <label class="file">
+      Upload Logo (Optional)
       <input type="file" id="logo" accept="image/*">
     </label>
 
     <button onclick="generateQR()">Generate QR</button>
-  </div>
 
-  <div id="card" class="card hidden">
+    <div class="result">
+      <div id="qr"></div>
 
-    <div class="profile">
-      <div class="avatar" id="avatar">A</div>
-      <div>
-        <h2 id="outName"></h2>
-        <p id="outUsername"></p>
+      <div class="actions">
+        <button onclick="copyWallet()">Copy Wallet</button>
+        <button onclick="downloadQR()">Download QR</button>
       </div>
-    </div>
-
-    <p class="bio" id="outBio"></p>
-    <p class="wallet" id="outWallet"></p>
-
-    <div id="qr"></div>
-
-    <div class="actions">
-      <button onclick="copyWallet()">Copy</button>
-      <button onclick="downloadQR()">Download</button>
     </div>
 
   </div>
 
 </div>
 
-<script src="app.js"></script>
+<script>
+let qr;
+
+function generateQR() {
+  const wallet = document.getElementById("wallet").value.trim();
+  const logoFile = document.getElementById("logo").files[0];
+
+  if (!wallet) {
+    alert("Wallet address is required");
+    return;
+  }
+
+  const qrContainer = document.getElementById("qr");
+  qrContainer.innerHTML = "";
+
+  let logoURL = "";
+  if (logoFile) {
+    logoURL = URL.createObjectURL(logoFile);
+  }
+
+  qr = new QRCodeStyling({
+    width: 260,
+    height: 260,
+    data: wallet,
+    image: logoURL,
+
+    dotsOptions: {
+      color: "#000000",
+      type: "rounded"
+    },
+
+    cornersSquareOptions: {
+      type: "extra-rounded"
+    },
+
+    backgroundOptions: {
+      color: "#ffffff"
+    },
+
+    imageOptions: {
+      margin: 6
+    }
+  });
+
+  qr.append(qrContainer);
+}
+
+function copyWallet() {
+  const wallet = document.getElementById("wallet").value;
+  navigator.clipboard.writeText(wallet);
+  alert("Wallet copied");
+}
+
+function downloadQR() {
+  if (qr) {
+    qr.download({ name: "wallet-qr", extension: "png" });
+  }
+}
+</script>
+
 </body>
 </html>
