@@ -1,73 +1,57 @@
-let qrCode;
-let currentWallet = "";
+let qr;
 
-function generateQR() {
+function generate() {
+  const name = document.getElementById("name").value;
+  const username = document.getElementById("username").value;
+  const bio = document.getElementById("bio").value;
+  const wallet = document.getElementById("wallet").value;
+  const logoInput = document.getElementById("logo");
 
-  const wallet = document.getElementById("wallet").value.trim();
-  const amount = document.getElementById("amount").value.trim();
+  document.getElementById("outName").innerText = name;
+  document.getElementById("outUser").innerText = username;
+  document.getElementById("outBio").innerText = bio;
+  document.getElementById("outWallet").innerText = wallet;
 
-  if (!wallet) {
-    alert("Masukkan alamat wallet!");
-    return;
+  document.getElementById("avatar").innerText = name.charAt(0);
+
+  const qrDiv = document.getElementById("qr");
+  qrDiv.innerHTML = "";
+
+  let logoURL = "";
+
+  if (logoInput.files[0]) {
+    logoURL = URL.createObjectURL(logoInput.files[0]);
   }
 
-  currentWallet = wallet;
-
-  document.getElementById("walletText").innerText = wallet;
-
-  let qrData = `solana:${wallet}`;
-  if (amount) qrData += `?amount=${amount}`;
-
-  const qrContainer = document.getElementById("qr");
-  qrContainer.innerHTML = "";
-
-  qrCode = new QRCodeStyling({
-    width: 320,
-    height: 320,
-    data: qrData,
-
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Lobster_icon.svg/512px-Lobster_icon.svg.png",
-
+  qr = new QRCodeStyling({
+    width: 250,
+    height: 250,
+    data: wallet,
+    image: logoURL,
     dotsOptions: {
-      color: "#7c3aed",
+      color: "#000",
       type: "rounded"
     },
-
-    cornersSquareOptions: {
-      type: "extra-rounded"
-    },
-
     backgroundOptions: {
-      color: "#ffffff"
+      color: "#fff"
     },
-
     imageOptions: {
       crossOrigin: "anonymous",
-      margin: 8,
-      imageSize: 0.25
+      margin: 5
     }
   });
 
-  qrCode.append(qrContainer);
+  qr.append(qrDiv);
 
-  document.getElementById("result").classList.remove("hidden");
+  document.getElementById("card").classList.remove("hidden");
 }
 
-// COPY
 function copyWallet() {
-  navigator.clipboard.writeText(currentWallet);
-  alert("Wallet copied!");
+  const wallet = document.getElementById("wallet").value;
+  navigator.clipboard.writeText(wallet);
+  alert("Copied!");
 }
 
-// DOWNLOAD HD
-function downloadQR() {
-  if (!qrCode) {
-    alert("Generate dulu!");
-    return;
-  }
-
-  qrCode.download({
-    name: "solana-qr-premium",
-    extension: "png"
-  });
+function download() {
+  qr.download({ name: "wallet-qr", extension: "png" });
 }
