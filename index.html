@@ -25,16 +25,14 @@ body {
   padding: 15px;
 }
 
-/* CONTAINER */
 .app {
   width: 100%;
   max-width: 420px;
 }
 
-/* TITLE */
 .title {
   text-align: center;
-  font-size: 22px;
+  font-size: 20px;
   margin-bottom: 20px;
   opacity: 0.9;
 }
@@ -84,8 +82,14 @@ button {
   font-weight: bold;
   color: white;
   cursor: pointer;
-  margin-top: 8px;
+  margin-top: 10px;
   background: linear-gradient(45deg, #7c3aed, #ec4899);
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
 }
 
 /* RESULT */
@@ -94,16 +98,25 @@ button {
   text-align: center;
 }
 
-#qr {
+/* ACTION BUTTONS */
+.actions {
   margin-top: 15px;
 }
 
-/* ACTION BUTTONS */
 .actions button {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
-/* DESKTOP UPGRADE */
+/* QR STYLE */
+#qr canvas {
+  border-radius: 16px;
+  margin-top: 15px;
+  box-shadow: 
+    0 0 20px rgba(124, 58, 237, 0.6),
+    0 0 40px rgba(236, 72, 153, 0.4);
+}
+
+/* DESKTOP */
 @media (min-width: 768px) {
   .app {
     max-width: 500px;
@@ -125,7 +138,7 @@ button {
 
 <div class="app">
 
-  <div class="title">🦞LOBSTAR QR GENERATE🦞</div>
+  <div class="title">🦞Lobstar QR Generate🦞</div>
 
   <div class="card">
 
@@ -141,7 +154,8 @@ button {
     <div class="result">
       <div id="qr"></div>
 
-      <div class="actions">
+      <!-- hidden dulu -->
+      <div id="actions" class="actions" style="display:none;">
         <button onclick="copyWallet()">Copy Wallet</button>
         <button onclick="downloadQR()">Download QR</button>
       </div>
@@ -153,15 +167,19 @@ button {
 
 <script>
 let qr;
+let currentWallet = "";
 
+/* GENERATE QR */
 function generateQR() {
   const wallet = document.getElementById("wallet").value.trim();
   const logoFile = document.getElementById("logo").files[0];
 
   if (!wallet) {
-    alert("Wallet address is required");
+    alert("Please enter wallet address");
     return;
   }
+
+  currentWallet = wallet;
 
   const qrContainer = document.getElementById("qr");
   qrContainer.innerHTML = "";
@@ -178,12 +196,13 @@ function generateQR() {
     image: logoURL,
 
     dotsOptions: {
-      color: "#000000",
+      color: "#7c3aed",
       type: "rounded"
     },
 
     cornersSquareOptions: {
-      type: "extra-rounded"
+      type: "extra-rounded",
+      color: "#ec4899"
     },
 
     backgroundOptions: {
@@ -196,18 +215,33 @@ function generateQR() {
   });
 
   qr.append(qrContainer);
+
+  // tampilkan tombol setelah generate
+  document.getElementById("actions").style.display = "block";
 }
 
+/* COPY */
 function copyWallet() {
-  const wallet = document.getElementById("wallet").value;
-  navigator.clipboard.writeText(wallet);
+  if (!currentWallet) {
+    alert("Generate QR first");
+    return;
+  }
+
+  navigator.clipboard.writeText(currentWallet);
   alert("Wallet copied");
 }
 
+/* DOWNLOAD */
 function downloadQR() {
-  if (qr) {
-    qr.download({ name: "wallet-qr", extension: "png" });
+  if (!qr) {
+    alert("Generate QR first");
+    return;
   }
+
+  qr.download({
+    name: "wallet-qr",
+    extension: "png"
+  });
 }
 </script>
 
